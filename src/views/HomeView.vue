@@ -13,8 +13,13 @@
         </div>
       </router-link>
     </div>
-
     
+    <form @submit.prevent="" class="search-box">
+      <input type="text" placeholder="What are you looking for ?"/>
+      <input type="submit" value="Search">
+    </form>
+
+
   </div>
 </template>
 
@@ -52,6 +57,58 @@
 
       p {
         color: white;
+      }
+    }
+  }
+
+  .search-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+
+    input {
+      display: block;
+      appearance: none;
+      border: none;
+      outline: none;
+      background: none;
+
+      &[type="text"] {
+        width: 100%;
+        color: white;
+        background-color: #98b9dc;
+        font-size: 20px;
+        padding: 10px 16px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        transition: 0.4s;
+
+        &::placeholder {
+          color: #e7e3e3;
+        }
+
+        &:focus {
+          box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      &[type="submit"] {
+        width: 100%;
+        max-width: 300px;
+        background-color: rgb(169, 114, 42);
+        padding: 16px;
+        border-radius: 10px;
+        color: white;
+        font-size: 20px;
+        text-transform: uppercase;
+        transition: 0.4s;
+        cursor: pointer;
+      }
+
+      &:active {
+        opacity: 0.6;
       }
     }
   }
