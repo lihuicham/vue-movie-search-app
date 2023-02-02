@@ -19,6 +19,20 @@
       <input type="submit" value="Search">
     </form>
 
+    <div class="movie-list">
+      <div class="movie" v-for="movie in movies" :key="movie.imdbID">
+        <router-link :to="'/movie/' + movie.imdbID" class="movie-link">
+          <div class="movie-img">
+            <img :src="movie.Poster" :alt="movie.Title + ' poster'" />
+            <div class="movie-type">{{ movie.Type }}</div>
+          </div>
+          <div class="movie-detail">
+            <p class="movie-year">{{ movie.Year }}</p>
+            <h3>{{ movie.Title }}</h3>
+          </div>
+        </router-link>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -36,6 +50,7 @@ export default {
     const searchMovies = () => {
       if (searchText.value != "") {
         // FETCH FROM API 
+        // FIX THIS : NEED TO HANDLE ERROR (MOVIE NOT FOUND PRINT ON SCREEN PROBABLY IS V-IF)
         fetch(`http://www.omdbapi.com/?apikey=${env.apikey}&s=${searchText.value}`)
           .then(response => response.json())
           .then(data => {
@@ -58,6 +73,8 @@ export default {
 
 <style lang="scss">
 .home {
+
+  // FEATURED CARD 
   .featured-card {
     position: relative;
 
@@ -90,6 +107,7 @@ export default {
     }
   }
 
+  // SEARCH BOX
   .search-box {
     display: flex;
     flex-direction: column;
@@ -141,6 +159,68 @@ export default {
       }
     }
   }
+
+  // MOVIE LIST 
+  .movie-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0px 8px;
+
+    .movie {
+      max-width: 30%;
+      flex: 1 1 30%;
+      padding: 16px 8px;
+
+      .movie-link {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        .movie-img {
+          position: relative;
+          display: block;
+
+          img {
+            display: block;
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+          }
+
+          .movie-type {
+            position: absolute;
+            padding: 8px 16px;
+            background-color: green;
+            color: white;
+            bottom: 16px;
+            left: 0px;
+            text-transform: capitalize;
+          }
+        }
+
+        .movie-detail {
+          background-color: black;
+          padding: 16px 8px;
+          flex: 1 1 100%;
+          border-radius: 0px 0px 8px 8px;
+
+          .movie-year {
+            color: white;
+            font-size: 14px;
+          }
+
+          h3 {
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+
 }
 
 </style>
