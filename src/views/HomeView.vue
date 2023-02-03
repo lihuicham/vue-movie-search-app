@@ -9,34 +9,20 @@
     </form>
 
     <div class="movie-list">
-      <div class="movie">
-        <router-link :to="'/movie/'" class="movie-link">
-          <div class="movie-img">
-            <img :src="`https://image.tmdb.org/t/p/original/jRXYjXNq0Cs2TcJjLkki24MLp7u.jpg`" />
-            <div class="movie-rating">5.8</div>
+      <div class="movie-card" v-for="movie in movies" :key="movie.id">
+        <router-link :to="'/movie/' + movie.id" class="movie-link">
+          <div class="movie-poster">
+            <img :src="`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`" :alt="movie.title + ' poster'" />
           </div>
           <div class="movie-detail">
-            <p class="movie-year">2022-02-01</p>
-            <h3>Avenger</h3>
+            <h3>{{ movie.title }}</h3>
+            <div>
+              <span>{{ movie.vote_average }}</span><uis-star class="star-icon"/>
+            </div>
           </div>
         </router-link>
       </div>
     </div>
-
-    <!-- <div class="movie-list">
-      <div class="movie" v-for="movie in movies" :key="movie.id">
-        <router-link :to="'/movie/' + movie.id" class="movie-link">
-          <div class="movie-img">
-            <img :src="`https://image.tmdb.org/t/p/original/${movie.poster_path}`" :alt="movie.title + ' poster'" />
-            <div class="movie-type">{{ movie.vote_average }}</div>
-          </div>
-          <div class="movie-detail">
-            <p class="movie-year">{{ movie.release_date }}</p>
-            <h3>{{ movie.title }}</h3>
-          </div>
-        </router-link>
-      </div>
-    </div> -->
 
   </div>
 </template>
@@ -45,12 +31,14 @@
 // @ is an alias to /src
 import { ref } from 'vue';
 import env from '@/env';
-import { UilSearch } from '@iconscout/vue-unicons'
+import { UilSearch } from '@iconscout/vue-unicons';
+import { UisStar } from '@iconscout/vue-unicons-solid';
 
 export default {
 
   components : {
-    UilSearch
+    UilSearch,
+    UisStar,
   },
 
   setup() {
@@ -61,7 +49,6 @@ export default {
       if (searchText.value != "") {
         // FETCH FROM API 
         // FIX THIS : NEED TO HANDLE ERROR (MOVIE NOT FOUND PRINT ON SCREEN PROBABLY IS V-IF)
-        // fetch(`http://www.omdbapi.com/?apikey=${env.apikey}&s=${searchText.value}`)
         fetch(`https://api.themoviedb.org/3/search/movie?api_key=${env.apikey}&language=en-US&page=1&include_adult=false&query=${searchText.value}`)
           .then(response => response.json())
           .then(data => {
@@ -69,13 +56,14 @@ export default {
             movies.value = data.results.filter(movie => movie.poster_path !== null && movie.backdrop_path !== null)  // returns an Array of movies 
             searchText.value = ""  // reset the search field
           })
+          
       }
     }
 
     return {
       searchText, 
       movies,
-      searchMovies
+      searchMovies,
     }
   }
 }
@@ -133,14 +121,12 @@ export default {
 
   }
 
+  // MOVIE 
 
-  // MOVIE LIST 
   .movie-list {
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-wrap: wrap;
-    margin: 80px 8px;
+    margin-top: 80px;
     max-height: 75%;
     overflow-y: scroll;
     -ms-overflow-style: none;
@@ -150,59 +136,92 @@ export default {
       display: none;
     }
 
-    .movie {
-      max-width: 30%;
-      flex: 1 1 30%;
-      padding: 16px 8px;
+    .movie-card {
+      flex: 1 1 33.33%;
+      position: relative;
+      background-color: transparent;
+      border-radius: 20px;
+      overflow: hidden;
 
-      .movie-link {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
+      .movie-poster {
+        position: relative;
+        overflow: hidden;
 
-        .movie-img {
-          position: relative;
-          display: block;
+        img {
+          width: 100%;
+          transition: 0.5s;
+        }
 
+        &::before {
+          content: '';
+          position: absolute;
+          bottom: -170px;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(0deg, var(--card-overlay-color) 50%, transparent);
+          transition: 0.5s;
+          z-index: 1;
+        }
+      }
+
+      &:hover {
+        .movie-poster::before {
+          bottom: 0px;
+        }
+
+        .movie-poster {
           img {
-            display: block;
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-          }
-
-          .movie-rating {
-            position: absolute;
-            padding: 8px 16px;
-            background-color: green;
-            color: white;
-            bottom: 16px;
-            left: 0px;
-            text-transform: capitalize;
+            transform: translateY(-50px);
+            filter: blur(3px);
           }
         }
 
         .movie-detail {
-          background-color: black;
-          padding: 16px 8px;
-          flex: 1 1 100%;
-          border-radius: 0px 0px 8px 8px;
+          bottom: 8px;
+        }
 
-          .movie-year {
-            color: white;
-            font-size: 14px;
-          }
+      }
 
-          h3 {
-            color: white;
-            font-weight: 600;
-            font-size: 18px;
-          }
+      .movie-detail {
+        position: absolute;
+        bottom: -130px;
+        left: 0;
+        padding: 20px;
+        width: 100%;
+        z-index: 2;
+        transition: 0.5s;
+
+        h3 {
+          color: white;
+          font-weight: 500;
+          font-size: 28px
+        }
+
+        span {
+          color: var(--movie-card-text-color);
+          font-weight: 400;
+          font-size: 15px;
+        }
+        
+        p {
+          color: var(--movie-card-text-color);
+          font-weight: 200;
+          margin-top: 15px;
+          font-size: 14px;
+        }
+
+        .star-icon {
+          color: yellow;
+          margin-left: 4px;
+          padding-top: 2.3px;
         }
       }
+
     }
+
   }
 
 }
+
 
 </style>
