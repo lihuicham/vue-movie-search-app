@@ -1,9 +1,9 @@
 <template>
     <div class="movie-detail">
-        <h2>{{ movie.Title }}</h2>
-        <p>{{ movie.Year }}</p>
-        <img :src="movie.Poster" :alt="movie.Title + ' poster'"/>
-        <p>{{ movie.Plot }}</p>
+        <h2>{{ movie.title }}</h2>
+        <p>{{ movie.release_date }}</p>
+        <img :src="`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`" :alt="movie.title + ' poster'"/>
+        <p>{{ movie.overview }}</p>
     </div>
 </template>
 <script>
@@ -17,11 +17,12 @@ export default {
         const route = useRoute();
 
         onBeforeMount(() => {
-            fetch(`http://www.omdbapi.com/?apikey=${env.apikey}&i=${route.params.id}&plot=full`)
+            // fetch(`http://www.omdbapi.com/?apikey=${env.apikey}&i=${route.params.id}&plot=full`)
+            fetch(`https://api.themoviedb.org/3/movie/${route.params.id}?api_key=${env.apikey}&language=en-US`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data)
                     movie.value = data  // returns a Movie object
-
                 })
         });
 
