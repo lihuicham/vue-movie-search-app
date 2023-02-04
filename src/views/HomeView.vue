@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+    <div class="logo">
+      <img :src="require('@/assets/logo.png')"/>
+    </div>
     
     <form @submit.prevent="searchMovies()" class="search-bar">
       <input type="text" placeholder="What are you looking for ?" v-model="searchText"/>
@@ -16,9 +19,11 @@
           </div>
           <div class="movie-detail">
             <h3>{{ movie.title }}</h3>
-            <div>
+            <div class="movie-ratings">
               <span>{{ movie.vote_average }}</span><uis-star class="star-icon"/>
             </div>
+            <p v-if="movie.overview !== ''">{{ movie.overview }}</p>
+            <p v-else>Click to see more details</p>
           </div>
         </router-link>
       </div>
@@ -74,13 +79,28 @@ export default {
 
 .home {
 
+  // LOGO 
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 42%;
+    width: 250px;
+    height: 250px;
+
+    img {
+      width: 70%;
+      max-width: 500px;
+    }
+  }
 
   // SEARCH BAR 
   .search-bar {
     position: relative;
-    left: 32%;
-    margin-top: 200px;
+    left: 30%;
     width: 100%;
+    margin-top: -20px;
     max-width: 700px;
     background: var(--search-bar-color);
     display: flex;
@@ -184,7 +204,7 @@ export default {
 
       .movie-detail {
         position: absolute;
-        bottom: -130px;
+        bottom: -75px;
         left: 0;
         padding: 20px;
         width: 100%;
@@ -197,17 +217,24 @@ export default {
           font-size: 28px
         }
 
+        .movie-ratings {
+          margin-bottom: 15px;
+        }
+
         span {
           color: var(--movie-card-text-color);
           font-weight: 400;
-          font-size: 15px;
+          font-size: 18px;
         }
         
         p {
           color: var(--movie-card-text-color);
           font-weight: 200;
-          margin-top: 15px;
           font-size: 14px;
+          max-width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .star-icon {
