@@ -1,8 +1,13 @@
 <template>
   <header>
-    <router-link to="/">
-      <h1>MovieGo</h1>
-    </router-link>
+    <div class="header-container">
+      <router-link to="/">
+        <h1>MovieGo</h1>
+      </router-link>
+      <a href="https://github.com/lihuicham/vue-movie-search-app" target="_blank">
+        <span class="source">Source</span><uil-github class="github-icon"/>
+      </a>
+    </div>
   </header>
 
   <main>
@@ -10,6 +15,18 @@
   </main>
   
 </template>
+
+<script>
+import { UilGithub } from '@iconscout/vue-unicons'
+
+  export default {
+    components: {
+      UilGithub,
+    }
+  }
+
+
+</script>
 
 <style lang="scss">
 
@@ -33,17 +50,33 @@ header {
   align-items: center;
   justify-content: flex-start;
   padding: 16px 30px;
+
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100vw;
+  }
 }
 
 a {
   text-decoration: none;
-}
-
-h1 {
   color: white;
+
+  .source {
+    margin-right: 5px;
+  }
+
+  .github-icon {
+    font-size: 20px;
+    position: relative;
+    top: 4px;
+  }
 }
 
-h1:hover {
+
+h1:hover,
+a:hover {
   color: var(--search-bar-text)
 }
 
