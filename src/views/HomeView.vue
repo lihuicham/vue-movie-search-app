@@ -5,8 +5,8 @@
       <img :src="require('@/assets/logo.png')"/>
     </div>
     
-    <form class="search-bar" @submit.prevent>
-      <input type="text" placeholder="What are you looking for ?" v-model="searchText"/>
+    <form class="search-bar" @submit.prevent="searchMovies">
+      <input type="text" placeholder="What are you looking for" v-model="searchText"/>
       <button type="submit">
         <uil-search class="search-icon"/>
       </button>
@@ -35,14 +35,13 @@
 
 <script>
 // @ is an alias to /src
-import { ref, onMounted, onBeforeUpdate } from 'vue';
+import { ref, onMounted } from 'vue';
 import env from '@/env';
 import { UilSearch } from '@iconscout/vue-unicons';
 import { UisStar } from '@iconscout/vue-unicons-solid';
 import LocalDB from '@/assets/js/LocalDB';
 
 export default {
-
   components : {
     UilSearch,
     UisStar,
@@ -58,26 +57,29 @@ export default {
         .then(response => response.json())
         .then(data => {
           console.log(data)
-          movies.value = data.results.filter(movie => movie.poster_path !== null && movie.backdrop_path !== null)  // returns an Array of movies 
+          movies.value = data.results.filter(movie => movie.poster_path !== null && movie.backdrop_path !== null)  // returns an Array of movies
           // searchText.value = ""  // reset the search field
         })
     });
 
-    onBeforeUpdate(() => {
-      localDB.set('search', searchText.value);
+    const searchMovies = () => {
+      localDB.set('search', searchText.value)
       fetch(`https://api.themoviedb.org/3/search/movie?api_key=${env.apikey}&language=en-US&page=1&include_adult=false&query=${localDB.get('search')}`)
         .then(response => response.json())
         .then(data => {
           console.log(data)
-          movies.value = data.results.filter(movie => movie.poster_path !== null && movie.backdrop_path !== null)  // returns an Array of movies 
+          movies.value = data.results.filter(movie => movie.poster_path !== null && movie.backdrop_path !== null)  // returns an Array of movies
+          searchText.value = ""  // reset the search field
       })
-    });
+    }
+
+    
 
     return {
       searchText, 
       movies,
       localDB,
-      // searchMovies,
+      searchMovies,
     }
   }
 }
