@@ -113,7 +113,7 @@ export default {
                 h2 {
                     font-size: 60px;
                     font-weight: 600;
-                    margin-bottom: 3px;
+                    margin-bottom: 7px;
                     max-width: 60%;
                     line-height: 100%;
                 }
