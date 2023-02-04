@@ -12,8 +12,8 @@
       </button>
     </form>
 
-    <MovieList :movies="movies"/>
-
+    <MovieList :movies="movies" />
+    
   </div>
 </template>
 
@@ -25,23 +25,21 @@ import LocalDB from '@/assets/js/LocalDB';
 import MovieList from '@/components/MovieList.vue';
 import { UilSearch } from '@iconscout/vue-unicons';
 
-
 export default {
   components : {
     MovieList,
     UilSearch,
   },
   setup() {
-    const searchText = ref("");
+    const searchText = ref("")
     const movies = ref([]);
     const localDB = new LocalDB();
     onMounted(() => {
-      fetch(`https://api.themoviedb.org/3/search/movie?api_key=${env.apikey}&language=en-US&page=1&include_adult=false&query=avatar`)
+      fetch(`https://api.themoviedb.org/3/search/movie?api_key=${env.apikey}&language=en-US&page=1&include_adult=false&query=${localDB.get('search')}`)
         .then(response => response.json())
         .then(data => {
-          console.log(data)
           movies.value = data.results.filter(movie => movie.poster_path !== null && movie.backdrop_path !== null)  // returns an Array of movies
-          // searchText.value = ""  // reset the search field
+          searchText.value = ""  // reset the search field
         })
     });
     const searchMovies = () => {

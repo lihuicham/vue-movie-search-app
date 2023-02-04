@@ -57,7 +57,6 @@ export default {
             fetch(`https://api.themoviedb.org/3/movie/${route.params.id}?api_key=${env.apikey}&language=en-US`)
                 .then(response => response.json())
                 .then(data => {
-                    // console.log(data)
                     movie.value = data  // returns a Movie object
                     genres.value = movie.value.genres;
                     year.value = movie.value.release_date.slice(0, 4);
