@@ -1,11 +1,8 @@
 <template>
-    <!-- <div class="movie-detail">
-        <h2>{{ movie.title }}</h2>
-        <p>{{ movie.release_date }}</p>
-        <img :src="`https://image.tmdb.org/t/p/original/${movie.poster_path}`" :alt="movie.title + ' poster'"/>
-        <p>{{ movie.overview }}</p>
-    </div> -->
     <div class="movie-banner">
+        <a @click="$router.go(-1)">
+            <uil-arrow-left class="back-button"/>
+        </a>
         <img :src="`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`" :alt="movie.title + ' poster'" class="movie-backdrop"/>
         <div class="movie-poster">
             <img :src="`https://image.tmdb.org/t/p/original/${movie.poster_path}`" :alt="movie.title + ' poster'"/>
@@ -38,7 +35,7 @@ import { ref, onBeforeMount } from 'vue';
 import { useRoute } from 'vue-router';
 import env from '@/env';
 import '@/assets/styles/variables.css';
-import { UilClock, UilSchedule, UilStar } from '@iconscout/vue-unicons';
+import { UilClock, UilSchedule, UilStar, UilArrowLeft } from '@iconscout/vue-unicons';
 
 export default {
 
@@ -46,6 +43,7 @@ export default {
         UilClock,
         UilSchedule,
         UilStar,
+        UilArrowLeft,
     },
 
     setup() {
@@ -78,6 +76,19 @@ export default {
 }
 </script>
 <style lang="scss">
+
+    .back-button {
+        color: black;
+        font-size: 40px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        cursor: pointer;
+    }
+
+    .back-button:hover {
+        color: white;
+    }
 
     .movie-banner {
         position: relative;
