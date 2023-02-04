@@ -204,7 +204,7 @@ export default {
 
       .movie-detail {
         position: absolute;
-        bottom: -75px;
+        bottom: -78px;
         left: 0;
         padding: 20px;
         width: 100%;
