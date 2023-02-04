@@ -5,7 +5,7 @@
       <img :src="require('@/assets/logo.png')"/>
     </div>
     
-    <form @submit.prevent="searchMovies()" class="search-bar">
+    <form class="search-bar" @submit.prevent>
       <input type="text" placeholder="What are you looking for ?" v-model="searchText"/>
       <button type="submit">
         <uil-search class="search-icon"/>
@@ -35,10 +35,11 @@
 
 <script>
 // @ is an alias to /src
-import { ref } from 'vue';
+import { ref, onMounted, onBeforeUpdate } from 'vue';
 import env from '@/env';
 import { UilSearch } from '@iconscout/vue-unicons';
 import { UisStar } from '@iconscout/vue-unicons-solid';
+import LocalDB from '@/assets/js/LocalDB';
 
 export default {
 
@@ -50,26 +51,33 @@ export default {
   setup() {
     const searchText = ref("");
     const movies = ref([]);
+    const localDB = new LocalDB();
 
-    const searchMovies = () => {
-      if (searchText.value != "") {
-        // FETCH FROM API 
-        // FIX THIS : NEED TO HANDLE ERROR (MOVIE NOT FOUND PRINT ON SCREEN PROBABLY IS V-IF)
-        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${env.apikey}&language=en-US&page=1&include_adult=false&query=${searchText.value}`)
-          .then(response => response.json())
-          .then(data => {
-            console.log(data)
-            movies.value = data.results.filter(movie => movie.poster_path !== null && movie.backdrop_path !== null)  // returns an Array of movies 
-            searchText.value = ""  // reset the search field
-          })
-          
-      }
-    }
+    onMounted(() => {
+      fetch(`https://api.themoviedb.org/3/search/movie?api_key=${env.apikey}&language=en-US&page=1&include_adult=false&query=avatar`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          movies.value = data.results.filter(movie => movie.poster_path !== null && movie.backdrop_path !== null)  // returns an Array of movies 
+          // searchText.value = ""  // reset the search field
+        })
+    });
+
+    onBeforeUpdate(() => {
+      localDB.set('search', searchText.value);
+      fetch(`https://api.themoviedb.org/3/search/movie?api_key=${env.apikey}&language=en-US&page=1&include_adult=false&query=${localDB.get('search')}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          movies.value = data.results.filter(movie => movie.poster_path !== null && movie.backdrop_path !== null)  // returns an Array of movies 
+      })
+    });
 
     return {
       searchText, 
       movies,
-      searchMovies,
+      localDB,
+      // searchMovies,
     }
   }
 }
