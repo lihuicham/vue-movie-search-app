@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <div class="logo">
+      <h2>MovieGo</h2>
       <img :src="require('@/assets/logo.png')"/>
     </div>
     
@@ -88,6 +89,14 @@ export default {
     left: 42%;
     width: 250px;
     height: 250px;
+
+    h2 {
+      color: white;
+      font-size: 60px;
+      position: relative;
+      top: 15px;
+      right: 15px;
+    }
 
     img {
       width: 70%;
