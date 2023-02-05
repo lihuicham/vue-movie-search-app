@@ -6,7 +6,7 @@
     </div>
     
     <form class="search-bar" @submit.prevent="searchMovies">
-      <input type="text" placeholder="What are you looking for" v-model="searchText"/>
+      <input type="text" placeholder="What are you looking for ?" v-model="searchText"/>
       <button type="submit">
         <uil-search class="search-icon"/>
       </button>
