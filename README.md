@@ -1,8 +1,9 @@
 # vue-movie-search-app
 
 ## What is MovieGo ? 
-MovieGo is a movie search web app built on Vue3.js framework. User can search for movies and view movie details. 
-![]()
+[MovieGo](https://fantastic-starship-6db79b.netlify.app/) is a movie search web app built on Vue3.js framework. User can search for movies and view movie details.  
+
+<br>
 
 ## Technologies used 
 ### API 
@@ -14,13 +15,20 @@ MovieGo is a movie search web app built on Vue3.js framework. User can search fo
 ### Tech Stack 
 * App : Vue.js, SCSS, HTML5 
 * Icons : IconScout 
-## Instruction to run project locally 
+## View project 
+### Deployed on Netlify
+I have already deployed the project with Netlify.  
+View it :point_right: [MovieGo Web App](:point_right:)  
+
+*Note : View it on Chrome browser on your desktop for best viewing experience. Please ensure you have a stable Wi-Fi connection to reduce the data fetching time from API endpoints.*
+
+### Run project locally 
 1. Clone the repository `git clone https://github.com/lihuicham/vue-movie-search-app.git` to your preferred directory. 
 2. `cd` to your directory. 
 3. Run `npm install` at terminal to install dependencies. 
 4. Run `npm run serve` at terminal to run the app locally `http://localhost:8080/` at your preferred browser. 
 
-Note : You can run `npm run build` to build the app. 
+*Note : You can run `npm run build` to build the app.*
 
 ## Design & Implementation 
 ### (A) Hover Animation
