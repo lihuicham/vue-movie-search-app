@@ -18,7 +18,7 @@
 ## View project 
 ### Deployed on Netlify
 I have already deployed the project with Netlify.  
-View it :point_right: [MovieGo Web App](:point_right:)  
+View it :point_right: [MovieGo Web App](https://fantastic-starship-6db79b.netlify.app/)  
 
 *Note : View it on Chrome browser on your desktop for best viewing experience. Please ensure you have a stable Wi-Fi connection to reduce the data fetching time from API endpoints.*
 
