@@ -5,6 +5,8 @@
 
 <br>
 
+![demo-gif](./src/assets/README-assets/demo-gif.gif)
+
 ## Technologies used 
 ### API 
 [The Movie Database (TMDB)](https://www.themoviedb.org/) [API (Version 3)](https://developers.themoviedb.org/3) is used for this project.  
